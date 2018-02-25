@@ -1,0 +1,14 @@
+FROM debian:stretch
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN echo 'deb-src http://deb.debian.org/debian stretch main' >> /etc/apt/sources.list && \
+    echo 'deb-src http://security.debian.org stretch/updates main' >> /etc/apt/sources.list && \
+    echo 'deb-src http://deb.debian.org/debian stretch-updates main' >> /etc/apt/sources.list
+
+RUN apt update -qq && \
+    apt source squid && \
+    apt build-dep squid && \
+    apt install -qq -y devscripts && \
+    debuild -us -uc -b
+    
